@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BizBuilder — Your business plan</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://bizbuilder.mehyar.us/deliverable.html">
+<meta name="description" content="Your BizBuilder deliverable: business plan, landing-page copy, and email sequence.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a120c">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">Biz<span>Builder</span></a>
+    <nav class="nav">
+      <a href="index.html#teaser">Teaser</a>
+      <a href="index.html#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="loading">
+    <h1>Loading your deliverable…</h1>
+    <p class="lede">If this takes more than a minute, your build may still be running — check back shortly.</p>
+  </section>
+
+  <div id="deliverable" hidden>
+    <section class="hero hero-compact">
+      <p class="eyebrow">Your BizBuilder deliverable</p>
+      <h1 id="d-title">Business Plan</h1>
+      <p class="hero-sub" id="d-summary"></p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" id="d-pdf" href="#">Download the plan as PDF</a>
+      </div>
+    </section>
+
+    <section id="d-plan">
+      <div class="eyebrow-wrap"><p class="eyebrow">The plan</p></div>
+      <h2 class="sec-title">One-page business plan</h2>
+      <div id="d-plan-sections"></div>
+    </section>
+
+    <section id="d-landing">
+      <div class="eyebrow-wrap"><p class="eyebrow">Landing-page copy</p></div>
+      <h2 class="sec-title">Paste-ready landing copy</h2>
+      <div id="d-landing-body"></div>
+    </section>
+
+    <section id="d-emails">
+      <div class="eyebrow-wrap"><p class="eyebrow">Email sequence</p></div>
+      <h2 class="sec-title">5-email welcome sequence</h2>
+      <div id="d-emails-body"></div>
+    </section>
+
+    <section>
+      <div class="teaser-upgrade reveal in">
+        <p>This page is private to you — keep your link somewhere safe.</p>
+        <p class="gallery-note">Delivered by BizBuilder · <a href="mailto:info@mehyar.us">info@mehyar.us</a> · This plan is a starting point, not financial advice. Verify costs and demand before you spend.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="inner footer-grid">
+    <div class="footer-base">
+      <span>© 2026 BizBuilder. Excerpt free, full build $17, honesty included.</span>
+      <span><a href="index.html#faq">FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:info@mehyar.us">Contact</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+(function () {
+  "use strict";
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  var qs = new URLSearchParams(window.location.search);
+  var token = qs.get("token") || "";
+
+  function fail(msg) {
+    document.getElementById("loading").innerHTML =
+      "<h1>Can't load this deliverable</h1><p class=\"lede\">" + esc(msg) + "</p>";
+  }
+  if (!token || token.length < 16) { fail("That link is missing its token. Use the full link from your email."); return; }
+
+  fetch("/api/bizbuilder/deliverable?token=" + encodeURIComponent(token))
+    .then(function (r) { return r.json().then(function (j) { return { status: r.status, body: j }; }); })
+    .then(function (res) {
+      var b = res.body;
+      if (!b || !b.ok) {
+        var msg = "Something went wrong.";
+        if (res.status === 404) msg = "No order matches this token — double-check the link from your email.";
+        else if (res.status === 409) msg = "Your build isn't ready yet — check back in a few minutes.";
+        else if (b && b.error) msg = b.error;
+        fail(msg);
+        return;
+      }
+      var m = b.manifest;
+      var files = {};
+      (m.files || []).forEach(function (f) { files[f.name] = f; });
+      var raw = files["plan.json"];
+      if (!raw) { fail("The plan data is missing — reply to your receipt email and we'll fix it."); return; }
+      var data;
+      try { data = JSON.parse(raw.content); } catch (e) { fail("The plan data is corrupt — reply to your receipt email and we'll fix it."); return; }
+
+      var plan = data.plan || {};
+      var landing = data.landing || {};
+      var emails = (data.emails && data.emails.emails) || [];
+
+      document.getElementById("d-title").textContent = plan.title || m.title || "Your Business Plan";
+      document.getElementById("d-summary").textContent = m.summary || "";
+      var pdf = document.getElementById("d-pdf");
+      pdf.href = (m.pdf_url || "") + (m.pdf_url && m.pdf_url.indexOf("token=") === -1 ? (m.pdf_url.indexOf("?") === -1 ? "?token=" : "&token=") + encodeURIComponent(token) : "");
+
+      var PLAN_SECTIONS = [
+        ["The Concept", plan.concept],
+        ["Target Customer", plan.target_customer],
+        ["The Offer", plan.the_offer],
+        ["Pricing & Unit Economics", plan.pricing_and_unit_economics],
+        ["Go-to-Market: First 30 Days", plan.go_to_market_30_days],
+        ["Startup Costs", plan.startup_costs],
+        ["Risks & Honest Caveats", plan.risks_and_caveats],
+      ];
+      var ph = document.getElementById("d-plan-sections");
+      PLAN_SECTIONS.forEach(function (sec) {
+        if (!sec[1]) return;
+        var card = document.createElement("article");
+        card.className = "ba-card ba-after reveal in";
+        var lab = document.createElement("span");
+        lab.className = "ba-label";
+        lab.textContent = sec[0];
+        var p = document.createElement("p");
+        p.textContent = sec[1];
+        card.appendChild(lab);
+        card.appendChild(p);
+        ph.appendChild(card);
+      });
+      if (plan.milestones_90_days && plan.milestones_90_days.length) {
+        var mc = document.createElement("article");
+        mc.className = "ba-card ba-after reveal in";
+        var ml = document.createElement("span");
+        ml.className = "ba-label";
+        ml.textContent = "90-Day Milestones";
+        var ol = document.createElement("ol");
+        plan.milestones_90_days.forEach(function (x) {
+          var li = document.createElement("li");
+          li.textContent = x;
+          ol.appendChild(li);
+        });
+        mc.appendChild(ml);
+        mc.appendChild(ol);
+        ph.appendChild(mc);
+      }
+
+      var lb = document.getElementById("d-landing-body");
+      function lcard(label, htmlBody) {
+        var card = document.createElement("article");
+        card.className = "ba-card ba-after reveal in";
+        var lab = document.createElement("span");
+        lab.className = "ba-label";
+        lab.textContent = label;
+        card.appendChild(lab);
+        card.insertAdjacentHTML("beforeend", htmlBody);
+        lb.appendChild(card);
+      }
+      lcard("Hero", "<p><strong>" + esc(landing.hero_headline || "") + "</strong></p><p>" + esc(landing.hero_subhead || "") + "</p><p><em>CTA: " + esc(landing.hero_cta || "") + "</em></p>");
+      var ben = "<ul>";
+      (landing.benefits || []).forEach(function (b) { ben += "<li><strong>" + esc(b.title) + "</strong> — " + esc(b.body) + "</li>"; });
+      ben += "</ul>";
+      lcard("Benefits", ben);
+      var hiw = "<ol>";
+      (landing.how_it_works || []).forEach(function (s) { hiw += "<li>" + esc(s) + "</li>"; });
+      hiw += "</ol>";
+      lcard("How it works", hiw);
+      var faq = "";
+      (landing.faq || []).forEach(function (f) { faq += "<p><strong>Q: " + esc(f.q) + "</strong><br>A: " + esc(f.a) + "</p>"; });
+      lcard("FAQ", faq);
+      lcard("Final CTA", "<p>" + esc(landing.final_cta || "") + "</p>");
+
+      var eb = document.getElementById("d-emails-body");
+      emails.forEach(function (e) {
+        var card = document.createElement("article");
+        card.className = "ba-card ba-after reveal in";
+        var lab = document.createElement("span");
+        lab.className = "ba-label";
+        lab.textContent = "Day " + e.day + " — " + (e.subject || "");
+        var pv = document.createElement("p");
+        pv.style.color = "var(--muted)";
+        pv.style.fontSize = "14px";
+        pv.textContent = "Preview: " + (e.preview || "");
+        var bd = document.createElement("p");
+        bd.style.whiteSpace = "pre-wrap";
+        bd.textContent = e.body || "";
+        card.appendChild(lab);
+        card.appendChild(pv);
+        card.appendChild(bd);
+        eb.appendChild(card);
+      });
+
+      document.getElementById("loading").hidden = true;
+      document.getElementById("deliverable").hidden = false;
+    })
+    .catch(function () { fail("Couldn't reach the server — check your connection and try again."); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+# BizBuilder
+
+> Turn a 2-sentence business idea into a launch-ready package for $17, one time.
+> Free real excerpt before you pay. No income promises, ever.
+
+## What it is
+
+BizBuilder (https://bizbuilder.mehyar.us/) is an AI business builder. You enter
+a business idea, target audience, and price point; it generates a complete
+launch package:
+
+- **One-page business plan** — 8 sections (concept, target customer, offer,
+  pricing & unit economics, 30-day go-to-market, startup costs, risks & honest
+  caveats) plus 90-day milestones.
+- **Landing-page copy** — hero headline/subhead/CTA, benefits, how it works,
+  FAQ, final CTA.
+- **5-email welcome sequence** — day, subject, preview text, and body for each.
+
+A **free excerpt** (concept summary, target customer, one real plan section,
+three launch milestones) is generated from your own inputs before payment.
+The $17 one-time build delivers a styled web document plus a PDF.
+
+No accounts, no subscriptions. Token-gated private links for delivery.
+
+## Honesty policy (hard rules, enforced in code)
+
+- The generator is banned from writing "autopilot," "passive income,"
+  "guaranteed income," "financial freedom," "get rich," "quit your job,"
+  "make money while you sleep," or any income projection.
+- The plan covers founder actions (first 30/90 days), not outcomes.
+- Output is a starting point, not financial/legal/tax advice.
+
+## Pricing
+
+- Free excerpt: $0.
+- Full build (plan + landing copy + 5 emails, web doc + PDF): $17 one-time.
+- 7-day redo-or-refund. You own the output outright.
+
+## Key pages
+
+- https://bizbuilder.mehyar.us/ — home, free excerpt generator
+- https://bizbuilder.mehyar.us/success.html — order status after checkout
+- https://bizbuilder.mehyar.us/deliverable.html — private deliverable (token)
+- https://bizbuilder.mehyar.us/privacy.html — privacy policy
+- https://bizbuilder.mehyar.us/terms.html — terms

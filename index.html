@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BizBuilder — AI Business Builder: idea to launch-ready plan, $17</title>
+<meta name="description" content="Describe your business idea in two sentences. Get a free AI-generated plan excerpt, then unlock the full one-page business plan, landing-page copy, and 5-email welcome sequence for $17 one-time.">
+<link rel="canonical" href="https://bizbuilder.mehyar.us/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BizBuilder">
+<meta property="og:title" content="BizBuilder — idea to launch-ready plan, $17">
+<meta property="og:description" content="Free plan excerpt from your real idea. $17 one-time for the full business plan, landing copy, and email sequence. No hype, no subscriptions.">
+<meta property="og:url" content="https://bizbuilder.mehyar.us/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BizBuilder — idea to launch-ready plan, $17">
+<meta name="twitter:description" content="Free plan excerpt from your real idea. $17 one-time for the full build. No hype.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a120c">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"BizBuilder","url":"https://bizbuilder.mehyar.us/","sameAs":[],"contactPoint":{"@type":"ContactPoint","email":"info@mehyar.us","contactType":"customer service"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"BizBuilder","url":"https://bizbuilder.mehyar.us/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What does the free teaser include?","acceptedAnswer":{"@type":"Answer","text":"A real plan excerpt generated from your own idea: a sharp concept summary, your target customer, one full plan section, and your first 3 launch milestones."}},
+{"@type":"Question","name":"What exactly do I get for $17?","acceptedAnswer":{"@type":"Answer","text":"The complete one-page business plan (8 sections), the full landing-page copy (hero, benefits, how it works, FAQ), and a 5-email welcome sequence — delivered as a styled web doc plus a PDF."}},
+{"@type":"Question","name":"Is this financial advice?","acceptedAnswer":{"@type":"Answer","text":"No. BizBuilder gives you a working plan — a starting point built to execute on. Verify costs and demand before you spend a dollar."}},
+{"@type":"Question","name":"Why no income promises?","acceptedAnswer":{"@type":"Answer","text":"Because they're lies. No honest plan can tell you what you'll earn. BizBuilder is built on founder actions — what you do in the first 30 and 90 days — not fantasy outcomes."}},
+{"@type":"Question","name":"Is there a subscription?","acceptedAnswer":{"@type":"Answer","text":"No. $17 one-time. Your plan is yours forever."}}
+]}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">Biz<span>Builder</span></a>
+    <nav class="nav">
+      <a href="index.html#teaser">Teaser</a>
+      <a href="index.html#inside">What's inside</a>
+      <a href="index.html#faq">FAQ</a>
+      <a class="nav-cta" href="index.html#teaser">Start free</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ============ HERO ============ -->
+  <section class="hero hero-compact">
+    <p class="eyebrow">AI business builder — no agency, no guru course</p>
+    <h1>Your idea, <span class="grad">built into a business plan</span> in minutes.</h1>
+    <p class="hero-sub">Describe your idea in two sentences. Get a free plan excerpt — real output. Unlock the full build for $17, one time.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#teaser">Get my free plan excerpt</a>
+    </div>
+    <div class="trust-row">
+      <span>📄 Plan + landing copy + emails</span>
+      <span>🔒 Secure Stripe checkout</span>
+      <span>↩ 7-day redo-or-refund</span>
+    </div>
+  </section>
+
+  <!-- ============ TEASER ============ -->
+  <section id="teaser">
+    <div class="eyebrow-wrap"><p class="eyebrow">Free teaser</p></div>
+    <h2 class="sec-title">See your idea take shape. Free.</h2>
+    <p class="sec-sub">Answer three questions. In under a minute you'll see a real excerpt of your plan — generated for <em>your</em> idea, not a template.</p>
+    <form class="teaser-form reveal" id="teaser-form" novalidate>
+      <div class="field">
+        <label for="t-idea">Your business idea <span class="hint">(1–2 sentences)</span></label>
+        <textarea id="t-idea" rows="3" maxlength="600" placeholder="e.g. A mobile dog-grooming van for busy professionals in Brooklyn — I come to them, wash, cut, done in 45 minutes."></textarea>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="t-audience">Target audience</label>
+          <input id="t-audience" type="text" maxlength="300" placeholder="e.g. Time-poor dog owners, 30–55, Bay Ridge">
+        </div>
+        <div class="field">
+          <label for="t-price">Price point</label>
+          <input id="t-price" type="text" maxlength="120" placeholder="e.g. $85 per groom">
+        </div>
+      </div>
+      <p class="teaser-error" id="teaser-error" hidden></p>
+      <button type="submit" class="btn btn-primary btn-block" id="teaser-submit">Generate my free excerpt</button>
+    </form>
+    <div class="teaser-result" id="teaser-result" hidden>
+      <div class="teaser-concept reveal">
+        <span class="ba-label">The concept</span>
+        <p id="teaser-summary"></p>
+      </div>
+      <div class="ba-grid">
+        <article class="ba-card ba-before reveal">
+          <span class="ba-label">Your first buyer</span>
+          <p id="teaser-customer"></p>
+        </article>
+        <article class="ba-card ba-after reveal">
+          <span class="ba-label" id="teaser-excerpt-title">Plan excerpt</span>
+          <p id="teaser-excerpt"></p>
+        </article>
+      </div>
+      <div class="teaser-milestones reveal">
+        <span class="ba-label">Your first 3 launch milestones</span>
+        <ol id="teaser-milestones"></ol>
+      </div>
+      <div class="teaser-upgrade reveal">
+        <p id="teaser-upgrade-note"></p>
+        <button class="btn btn-primary" data-buy="bizbuilder-plan">Unlock the full $17 build</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHAT'S INSIDE ============ -->
+  <section id="inside">
+    <div class="eyebrow-wrap"><p class="eyebrow">What's inside</p></div>
+    <h2 class="sec-title">One idea in. Three assets out.</h2>
+    <p class="sec-sub">Everything a solo founder needs to start — written for your idea, not copied from a course.</p>
+    <div class="value-grid">
+      <div class="value-card reveal">
+        <div class="value-icon">📄</div>
+        <h3>The one-page business plan</h3>
+        <p>8 sections: concept, target customer, the offer, pricing &amp; unit economics, a week-by-week 30-day go-to-market plan, startup costs, honest risks, and 90-day milestones. Built to execute on Monday — with caveats, not hype.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-icon">🖥</div>
+        <h3>The landing-page copy</h3>
+        <p>Hero headline and subhead, 5 benefit blocks, a 3-step how-it-works, and a 5-question FAQ that handles your buyer's objections — including who it's <em>not</em> for. Paste-ready.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-icon">✉</div>
+        <h3>The 5-email welcome sequence</h3>
+        <p>Day 0 to day 4: welcome, your story, a genuinely useful lesson, the objection-killer, and the offer. Subject lines, preview text, full bodies — load it into any email tool.</p>
+      </div>
+    </div>
+    <p class="gallery-note">Delivered as a styled web doc you can open anywhere, plus a PDF you can print, send, or file. <a href="#pricing">Get the full build for $17 &rarr;</a></p>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section id="how">
+    <div class="eyebrow-wrap"><p class="eyebrow">How it works</p></div>
+    <h2 class="sec-title">Three steps. No discovery call.</h2>
+    <ol class="steps steps-visual">
+      <li class="reveal"><span class="step-icon">👁</span><strong>See a free excerpt</strong><p>Describe your idea, audience, and price. You get a real excerpt of your plan in under a minute — not a sales deck.</p></li>
+      <li class="reveal"><span class="step-icon">🔓</span><strong>Unlock for $17</strong><p>If the excerpt is good, pay once. You get an email receipt and a private link to track your build.</p></li>
+      <li class="reveal"><span class="step-icon">⚡</span><strong>Built in minutes</strong><p>The full plan, landing copy, and email sequence land in your inbox — usually within minutes. Web doc + PDF. Yours forever.</p></li>
+    </ol>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section id="pricing">
+    <div class="eyebrow-wrap"><p class="eyebrow">Pricing</p></div>
+    <h2 class="sec-title">One price. No surprises.</h2>
+    <p class="sec-sub">$17, one time. Cheaper than the course that would have sold you a fantasy.</p>
+    <div class="bundle-grid" style="max-width:560px;margin:0 auto">
+      <div class="bundle featured reveal">
+        <h3>The full BizBuilder build</h3>
+        <div class="price">$17 <small>one-time</small></div>
+        <p>One-page business plan (8 sections) · full landing-page copy (hero, benefits, FAQ) · 5-email welcome sequence · styled web doc + PDF · delivered in minutes.</p>
+        <button class="btn btn-primary btn-block" data-buy="bizbuilder-plan">Build my business plan</button>
+        <p class="price-guarantee" style="text-align:center;margin-top:10px">↩ 7-day redo-or-refund</p>
+      </div>
+    </div>
+    <div class="compare-strip reveal">
+      <div class="compare-col">
+        <span class="compare-who">Typical agency</span>
+        <span class="compare-price">$2,000+</span>
+        <span class="compare-time">2–4 weeks</span>
+      </div>
+      <div class="compare-col">
+        <span class="compare-who">Typical "guru" course</span>
+        <span class="compare-price">$197+</span>
+        <span class="compare-time">hours of video, zero plan</span>
+      </div>
+      <div class="compare-col winner">
+        <span class="compare-who">BizBuilder</span>
+        <span class="compare-price">$17</span>
+        <span class="compare-time">~minutes, built for you</span>
+      </div>
+    </div>
+    <p class="gallery-note">Agency and course figures are typical market ranges for comparable one-off planning work — your quotes may vary.</p>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq">
+    <div class="eyebrow-wrap"><p class="eyebrow">FAQ</p></div>
+    <h2 class="sec-title">Fair questions.</h2>
+    <div class="faq">
+      <details class="reveal">
+        <summary>What does the free teaser include?</summary>
+        <p>A real excerpt generated from your own idea: a sharp concept summary, your target customer, one full plan section, and your first 3 launch milestones. If it doesn't impress you, don't pay. That's the whole point.</p>
+      </details>
+      <details class="reveal">
+        <summary>What exactly do I get for $17?</summary>
+        <p>The complete one-page business plan (8 sections), the full landing-page copy (hero, 5 benefits, how it works, FAQ), and a 5-email welcome sequence with subjects, preview text, and bodies — delivered as a styled web doc plus a PDF.</p>
+      </details>
+      <details class="reveal">
+        <summary>Is this financial advice?</summary>
+        <p>No. BizBuilder gives you a working plan — a starting point built to execute on, not a prediction. Verify costs and demand before you spend a dollar.</p>
+      </details>
+      <details class="reveal">
+        <summary>Why no income promises?</summary>
+        <p>Because they're lies. No honest plan can tell you what you'll earn. BizBuilder plans on founder actions — what you do in the first 30 and 90 days — not fantasy outcomes. Our generator is hard-blocked from writing income promises, guarantees, or projections.</p>
+      </details>
+      <details class="reveal">
+        <summary>What if the plan is bad?</summary>
+        <p>Email us within 7 days and we'll redo it once, free. If it's still not usable, you get a full refund. Bad work shouldn't be your problem.</p>
+      </details>
+      <details class="reveal">
+        <summary>Who owns the output?</summary>
+        <p>You do. Full commercial rights, forever. Use it in your pitch, on your site, wherever.</p>
+      </details>
+      <details class="reveal">
+        <summary>Is there a subscription?</summary>
+        <p>No. $17, one time. Building a second business later? That's another $17 — never a subscription.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="final-cta reveal">
+    <h2>The idea in your head isn't a business yet.</h2>
+    <p class="sec-sub">See a free excerpt. Pay $17 only if it's worth it.</p>
+    <a class="btn btn-primary" href="#teaser">Start with a free excerpt</a>
+  </section>
+</main>
+
+<footer>
+  <div class="inner footer-grid">
+    <div class="subscribe-block">
+      <strong>Get founder-grade planning tips</strong>
+      <p class="muted">One short email when we ship new work. No spam — unsubscribe anytime.</p>
+      <form class="subscribe-form" data-subscribe-form novalidate>
+        <div class="subscribe-row">
+          <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address (required)" autocomplete="email">
+          <input type="tel" name="phone" placeholder="Phone (optional)" aria-label="Phone number (optional)" autocomplete="tel">
+          <input type="text" name="zip" placeholder="ZIP (optional)" aria-label="ZIP code (optional)" inputmode="numeric" autocomplete="postal-code">
+        </div>
+        <label class="sms-consent"><input type="checkbox" name="sms_consent" value="true"> <span>Text me about my excerpt <small>(optional — standard message rates may apply)</small></span></label>
+        <div class="subscribe-row">
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+          <p class="subscribe-msg" role="status" hidden></p>
+        </div>
+      </form>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 BizBuilder. Excerpt free, full build $17, honesty included.</span>
+      <span><a href="index.html#faq">FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:info@mehyar.us">Contact</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- Sticky mobile CTA -->
+<div class="sticky-cta" id="sticky-cta" hidden>
+  <span class="sticky-cta-text"><strong>$17</strong> one-time · free excerpt first</span>
+  <a class="btn btn-primary" href="#teaser">Start free</a>
+</div>
+
+<!-- Buy modal -->
+<div class="modal" id="buy-modal" hidden>
+  <div class="panel">
+    <button class="modal-close" id="buy-close" aria-label="Close">×</button>
+    <h2 id="buy-product-name"></h2>
+    <p class="muted" id="buy-product-pitch"></p>
+    <p><span class="price" id="buy-product-price"></span> <small style="color:var(--muted)">one-time</small></p>
+    <form id="buy-form" novalidate>
+      <div class="field">
+        <label for="buy-email">Email — your plan goes here</label>
+        <input type="email" id="buy-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <p id="buy-error"></p>
+      <button type="submit" class="btn btn-primary btn-block">Continue to checkout</button>
+    </form>
+  </div>
+</div>
+
+<!-- Dev payload modal -->
+<div class="modal" id="payload-modal" hidden>
+  <div class="panel" style="max-width:560px">
+    <button class="modal-close" id="payload-close" aria-label="Close">×</button>
+    <h2>Checkout payload</h2>
+    <pre id="payload-pre"></pre>
+    <p class="dev-notice">DEV MODE — no real checkout happened. In production this payload POSTs to the checkout endpoint and Stripe takes over.</p>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  /* reveal-on-scroll */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+
+  /* sticky mobile CTA */
+  var sticky = document.getElementById("sticky-cta");
+  var footer = document.querySelector("footer");
+  function updateSticky() {
+    if (window.innerWidth >= 720) { sticky.hidden = true; return; }
+    var past = window.scrollY > 520;
+    var footVisible = false;
+    if (footer) { footVisible = footer.getBoundingClientRect().top < window.innerHeight; }
+    sticky.hidden = !(past && !footVisible);
+  }
+  window.addEventListener("scroll", updateSticky, { passive: true });
+  window.addEventListener("resize", updateSticky);
+  updateSticky();
+
+  /* PWA registration */
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(function () {});
+  }
+});
+</script>
+</body>
+</html>

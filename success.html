@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BizBuilder — Order confirmed</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://bizbuilder.mehyar.us/success.html">
+<meta name="description" content="Your BizBuilder order is confirmed. Your business plan is being built.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a120c">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">Biz<span>Builder</span></a>
+    <nav class="nav">
+      <a href="index.html#teaser">Teaser</a>
+      <a href="index.html#inside">What's inside</a>
+      <a href="index.html#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="centered">
+    <div class="check">✓</div>
+    <h1>You're in. Check your email.</h1>
+    <p class="lede">Receipt and order details are on their way. Your business plan is built automatically — usually within minutes — and lands at the email you checked out with.</p>
+  </section>
+
+  <section id="live-status" hidden>
+    <h2>Live order status</h2>
+    <p class="lede" id="status-line">Checking…</p>
+    <div id="status-actions" style="margin-top:12px"></div>
+  </section>
+
+  <section>
+    <h2>Already have your access token?</h2>
+    <p class="lede">The email we send you carries a private access token. Paste it here to jump straight to your deliverable.</p>
+    <form id="token-form" novalidate>
+      <div class="token-form">
+        <input type="text" id="token-input" placeholder="paste your token" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button type="submit" class="btn btn-primary">View deliverable</button>
+      </div>
+      <div class="status" id="token-status"></div>
+    </form>
+    <p class="lede" style="font-size:14px;margin-top:12px">No token yet? It arrives with your receipt — usually within a minute.</p>
+  </section>
+
+  <section>
+    <div class="whatyouget">
+      <h3>What happens next</h3>
+      <ol class="steps">
+        <li><strong>We start immediately</strong><p>Your idea goes into the BizBuilder recipe: plan, landing copy, email sequence.</p></li>
+        <li><strong>You get a delivered email</strong><p>Usually within minutes, your deliverable link and its access token arrive.</p></li>
+        <li><strong>It lives at your private link</strong><p>deliverable.html with your token — web doc + PDF, available whenever you need it.</p></li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="inner footer-grid">
+    <div class="subscribe-block">
+      <strong>Get founder-grade planning tips</strong>
+      <p class="muted">One short email when we ship new work. No spam — unsubscribe anytime.</p>
+      <form class="subscribe-form" data-subscribe-form novalidate>
+        <div class="subscribe-row">
+          <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address (required)" autocomplete="email">
+          <input type="tel" name="phone" placeholder="Phone (optional)" aria-label="Phone number (optional)" autocomplete="tel">
+          <input type="text" name="zip" placeholder="ZIP (optional)" aria-label="ZIP code (optional)" inputmode="numeric" autocomplete="postal-code">
+        </div>
+        <label class="sms-consent"><input type="checkbox" name="sms_consent" value="true"> <span>Text me about my order <small>(optional — standard message rates may apply)</small></span></label>
+        <div class="subscribe-row">
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+          <p class="subscribe-msg" role="status" hidden></p>
+        </div>
+      </form>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 BizBuilder. Excerpt free, full build $17, honesty included.</span>
+      <span><a href="index.html#faq">FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:info@mehyar.us">Contact</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+/* ---- fulfillment backfill ----
+ * Safety net: if the Stripe webhook missed this payment (stale URL, etc.),
+ * trigger fulfillment directly from the success page. Idempotent — the
+ * server skips if an order already exists.
+ */
+(function () {
+  "use strict";
+  var qs = new URLSearchParams(window.location.search);
+  var token = qs.get("token") || qs.get("access_token");
+  if (!token || token.length < 16) return;
+  var input = document.getElementById("token-input");
+  if (input && !input.value) input.value = token;
+  try {
+    fetch("https://mehyar.us/api/pay/fulfill-backfill", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: token })
+    }).catch(function () { /* silent */ });
+  } catch (e) { /* silent */ }
+})();
+</script>
+<script>
+/* ---- live status poll ----
+ * Polls the BizBuilder order endpoint (/api/bizbuilder/deliverable), which
+ * reports the build state: 409 + {status:"paid"|"failed"} while building,
+ * 200 + manifest when ready. (The centralized /api/pay/status only knows
+ * payment status, not build state.)
+ */
+(function () {
+  "use strict";
+  var qs = new URLSearchParams(window.location.search);
+  var token = qs.get("token") || qs.get("access_token");
+  if (!token || token.length < 16) return;
+  var section = document.getElementById("live-status");
+  var line = document.getElementById("status-line");
+  var actions = document.getElementById("status-actions");
+  section.hidden = false;
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function setActions(html) { actions.innerHTML = html; }
+
+  async function poll() {
+    var res, data = null;
+    try {
+      res = await fetch("/api/bizbuilder/deliverable?token=" + encodeURIComponent(token));
+      data = await res.json().catch(function () { return null; });
+    } catch (e) {
+      line.textContent = "Couldn't reach the status service — your emailed link still works.";
+      return;
+    }
+    if (res.status === 404 || res.status === 403) {
+      line.textContent = "Couldn't find this order — use the token link from your email.";
+      return;
+    }
+    if (res.ok && data && data.ok && data.status === "ready") {
+      line.innerHTML = "Your business plan is ready.";
+      setActions('<a class="btn btn-primary" href="deliverable.html?token=' + encodeURIComponent(token) + '">View your deliverable</a>');
+      return; // stop polling
+    }
+    var state = (data && data.status) || "building";
+    if (state === "failed") {
+      line.innerHTML = "The build hit a snag. Retry below — your token stays the same.";
+      var btn = document.createElement("button");
+      btn.className = "btn btn-primary";
+      btn.textContent = "Retry the build";
+      btn.addEventListener("click", function () {
+        btn.disabled = true;
+        btn.textContent = "Retrying…";
+        fetch("/api/bizbuilder/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ order_token: token, inputs: {} })
+        }).then(function (r) { return r.json(); }).then(function (j) {
+          if (j && j.ok) { poll(); }
+          else { btn.disabled = false; btn.textContent = "Retry the build"; line.textContent = "Retry failed: " + esc((j && j.error) || "unknown") + " — reply to your receipt email and we'll fix it."; }
+        }).catch(function () {
+          btn.disabled = false; btn.textContent = "Retry the build";
+        });
+      });
+      setActions("");
+      actions.appendChild(btn);
+      return; // stop polling
+    }
+    line.textContent = "Building your plan — usually ready within minutes. This page updates itself.";
+    setTimeout(poll, 15000);
+  }
+  poll();
+})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("token-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var token = document.getElementById("token-input").value.trim();
+    var status = document.getElementById("token-status");
+    if (!token) {
+      status.textContent = "Paste the token from your email first.";
+      status.className = "status error";
+      return;
+    }
+    window.location.href = "deliverable.html?token=" + encodeURIComponent(token);
+  });
+});
+</script>
+</body>
+</html>
