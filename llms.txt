@@ -23,7 +23,7 @@ a PDF. No accounts, no subscriptions; private delivery links are token-gated.
 - Free excerpt: $0 (concept summary, target customer, one real plan section, 3 launch milestones).
 - Full build (one-page plan + landing-page copy + 5-email sequence, web doc + PDF): $17 one-time.
 - Checkout via Stripe through the centralized https://mehyar.us/api/pay/checkout (SKU: bizbuilder-plan).
-- 7-day redo-or-refund. The buyer owns the output outright — full commercial rights, forever.
+- All sales are final. The buyer owns the output outright — full commercial rights, forever.
 
 ## API
 
