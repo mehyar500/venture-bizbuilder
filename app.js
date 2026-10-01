@@ -17,7 +17,7 @@ const GENERATE_URL = "/api/bizbuilder/generate";
 const PRODUCT = {
   id: "bizbuilder-plan",
   name: "BizBuilder — AI Business Builder",
-  pitch: "Your idea becomes a one-page business plan, full landing-page copy, and a 5-email welcome sequence — styled web doc + PDF, delivered in minutes.",
+  pitch: "Your idea becomes a one-page business plan, full landing-page copy, and a 5-email welcome sequence — styled web doc + PDF, usually delivered within about 15 minutes.",
   price: 17,
 };
 
